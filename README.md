@@ -1,6 +1,42 @@
 # React + Python starter kit
 A simple, boilerplate for building web apps with a React front-end and a Python Flask back-end.
 
+🌐 Backend Setup
+
+**Clone the Repository**
+```
+cd react-python-boilerplate
+```
+**Create a Virtual Environment py 3.10 >**
+```
+python -m venv myenvpath
+```
+**Activate the Virtual Environment**
+```
+.\myenvpath\Scripts\Activate.ps1
+```
+**Install Python Dependencies**
+```
+cd C:\projects\react-python-boilerplate\
+pip install -r requirements.txt
+```
+**Run the Backend Server**
+```
+python server.py
+```
+
+🌐 Front-end Setup
+
+**Install Dependencies**
+```
+cd C:\projects\react-python-boilerplate\front-end
+npm install
+npm start
+```
+
+This should open http://localhost:3000/ in your browser.
+
+
 Architecture Considerations This setup assumes your Flask server is configured to serve the React build files as static assets, typically from a /build directory. The Flask app likely has routes for your API endpoints and a catch-all route that serves the React app's index.html for client-side routing. The container exposes port 5000, which is Flask's default development port, though you might want to consider using a production WSGI server like Gunicorn for actual deployment.
 
 **Architecture**
@@ -36,3 +72,4 @@ The first stage uses the `node:18` image to build the React application. It star
 
 **Stage 2: Production Runtime**
 The second stage switches to a much smaller `python:3.10-slim` base image for the final container. It installs the Python dependencies from requirements.txt, copies the Flask server code (server.py), and crucially uses `COPY --from=front-end-build` to grab the built React assets from the first stage. This is the key benefit of multi-stage builds - you get the compiled frontend without carrying the entire Node.js toolchain in your final image.
+
